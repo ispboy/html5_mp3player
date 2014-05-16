@@ -47,7 +47,6 @@ function html5_mp3player_preprocess_html5_mp3player_formatter_mp3_file(&$variabl
     $variables['artists'] = $variables['element']['#item']['data']['description'] ? $variables['element']['#item']['data']['description'] : '';
     _html5_mp3player_extra ($variables);
   }
-  dpm($variables['src']);
 }
 
 function html5_mp3player_preprocess_html5_mp3player_formatter_mp3_url(&$variables) {
