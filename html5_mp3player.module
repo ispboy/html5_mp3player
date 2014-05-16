@@ -42,9 +42,12 @@ function html5_mp3player_field_formatter_info() {
 }
 
 function html5_mp3player_preprocess_html5_mp3player_formatter_mp3_file(&$variables) {
-	$variables['src'] = file_create_url($variables['element']['#item']['filepath']);
-  $variables['artists'] = $variables['element']['#item']['data']['description'] ? $variables['element']['#item']['data']['description'] : '';
-  _html5_mp3player_extra ($variables);
+  if ($variables['element']['#item']['filepath']) {
+    $variables['src'] = file_create_url($variables['element']['#item']['filepath']);
+    $variables['artists'] = $variables['element']['#item']['data']['description'] ? $variables['element']['#item']['data']['description'] : '';
+    _html5_mp3player_extra ($variables);
+  }
+  dpm($variables['src']);
 }
 
 function html5_mp3player_preprocess_html5_mp3player_formatter_mp3_url(&$variables) {
