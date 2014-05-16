@@ -1,0 +1,6 @@
+name = HTML5 mp3 player
+description = html5 audio player fallback to WPAudioPlayer
+core = 6.x
+package = Media
+dependencies[] = content
+dependencies[] = libraries

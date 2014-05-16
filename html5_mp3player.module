@@ -1,0 +1,63 @@
+<?php
+/**
+ * @file
+ * Contains exported formatters for the 'html5_mp3player' module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function html5_mp3player_theme() {
+  return array(
+    'html5_mp3player_formatter_mp3_file' => array(
+      'arguments' => array('element' => NULL),
+      'template' => 'html5_mp3player',
+    ),
+
+    'html5_mp3player_formatter_mp3_url' => array(
+      'arguments' => array('element' => NULL),
+      'template' => 'html5_mp3player',
+    ),
+
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function html5_mp3player_field_formatter_info() {
+  $info = array();
+  $info['mp3_file'] =  array(
+      'label' => 'HTML5 mp3 player',
+      'description' => t('html5 audio player fallback to WPAudioPlayer'),
+      'field types' => array('filefield'),
+//      'multiple values' => CONTENT_HANDLE_MODULE,
+      'multiple values' => CONTENT_HANDLE_CORE,
+  );
+  
+  $info['mp3_url'] = $info['mp3_file'];
+  $info['mp3_url']['field types'] = array('text');
+  
+  return $info;
+}
+
+function html5_mp3player_preprocess_html5_mp3player_formatter_mp3_file(&$variables) {
+	$variables['src'] = file_create_url($variables['element']['#item']['filepath']);
+  $variables['artists'] = $variables['element']['#item']['data']['description'] ? $variables['element']['#item']['data']['description'] : '';
+  _html5_mp3player_extra ($variables);
+}
+
+function html5_mp3player_preprocess_html5_mp3player_formatter_mp3_url(&$variables) {
+	$variables['src'] = $variables['element']['#item']['safe'];
+  $variables['artists'] = $variables['element']['#node']->title;
+  _html5_mp3player_extra ($variables);
+}
+
+/**
+ * for internal use 
+ */
+function _html5_mp3player_extra (&$variables) {
+  $lib = libraries_get_path('audio-player', TRUE);
+  $variables['swf'] = $lib. '/player.swf';
+  $variables['titles'] = check_plain(variable_get('site_name', ' '));
+}
